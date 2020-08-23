@@ -1,7 +1,8 @@
 import sys
 import itertools
+import time
 
-if sys.version_info[0] !=3: 
+if sys.version_info[0] !=3:
 	print('''--------------------------------------
 	REQUIRED PYTHON 3.x
 	use: python3 'any-pass.py'
@@ -9,12 +10,15 @@ if sys.version_info[0] !=3:
 			''')
 	sys.exit()
 
-def will_end():
-	raise SystemExit
-	
-print("To continue type yes and to quit press Ctrl/Command key + C\n")
-input("Do you wanna continue? ")
 print("Loading...\n")
+
+#colours
+green     = '\033[92m'
+cyan      = '\033[95m'
+bold      = '\033[1m'
+underline = '\033[4m'
+end       = '\033[0m'
+red       = '\033[91m'
 
 
 print('''---------------------------------------------------------------------------
@@ -60,50 +64,30 @@ activities carried out using this password Generator.
 ===========================================================================
 ---------------------------------------------------------------------------''')
 
-
-def passgen(i):
-    	print("If you want to quit the program, press CTRL + C")	
-    	print("NUMBER ONLY!!!")
-    	num = input("amount of char that password must consist of: ")
-    	yield from itertools.product(*([i] * int(num)))
-
 print("\nUsage: python3 any-pass.py\n\n")
 print('''Help: First you input characters that should be in the password,
-afterwards you state the amount of characters the password should contain.
-You only get five(5) chances to input.\n\n''')
-
-with open(input('name password file as *.txt: '), 'w') as f:
-	for x in passgen(input("Input char to be used in pass: ")):
-    		print(''.join(x), file=f)
-print("Loading...\n")
-print("Successfully created!!!")
-
-with open(input('name password file as *.txt: '), 'w') as f:
-	for x in passgen(input("Input char to be used in pass: ")):
-    		print(''.join(x), file=f)
-print("Loading...\n")
-print("Successfully created!!!")
-
-with open(input('name password file as *.txt: '), 'w') as f:
-	for x in passgen(input("Input char to be used in pass: ")):
-    		print(''.join(x), file=f)
-print("Loading...\n")
-print("Successfully created!!!")
-
-with open(input('name password file as *.txt: '), 'w') as f:
-	for x in passgen(input("Input char to be used in pass: ")):
-    		print(''.join(x), file=f)
-print("Loading...\n")
-print("Successfully created!!!")
-
-with open(input('name password file as *.txt: '), 'w') as f:
-	for x in passgen(input("Input char to be used in pass: ")):
-    		print(''.join(x), file=f)
-print("Loading...\n")
-print("Successfully created!!!")
-
-if (input("Type q to quit:") == "q"):
-	will_end()
+afterwards you state the amount of character(s) the password should contain.\n\n''')
 
 
+def passgen(i):
+    	num = input("amount of character(s) that password must consist of: ")
+    	yield from itertools.product(*([i] * int(num)))
 
+while True:
+    a = input("\nDO YOU WANT TO QUIT [(y)es/(n)o]?")
+    if a == "n":
+	    print(f"{red}If [a] output will be added to the file\n", end="")
+	    print(f"{red}If [w] output will be Overwrite the file\n", end="")
+	    with open(input('\nname password file as example.txt: '), input('Do you want to add or write to a file [a/w]?')) as f:
+		    for x in passgen(input("Input character(s) to be used in password: ")):
+			    print(''.join(x), file=f)
+			    for i in range(101):
+				    time.sleep(0.01)
+				    sys.stdout.write("\r%d%%" % i)
+				    sys.stdout.flush()
+    elif a == "y":
+	    print("Bye!!!")
+	    quit()
+    else:
+	    print("Invalid!!!")
+	    exit()
